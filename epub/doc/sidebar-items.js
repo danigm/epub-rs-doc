@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["EpubDoc","Struct to control the epub document"]]});

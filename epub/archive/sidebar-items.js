@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["EpubArchive","Epub archive struct. Here it's stored the file path and the list of files in the zip archive."]]});

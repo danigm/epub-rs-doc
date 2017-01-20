@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["archive","Manages the zip component part of the epub doc."],["doc","Manages the epub doc."]]});
