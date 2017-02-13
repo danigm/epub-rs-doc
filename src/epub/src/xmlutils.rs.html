@@ -253,6 +253,12 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>xml</span>;
 
@@ -417,12 +423,18 @@
     }
 }
 
+<span class='comment'>// removing &amp;nbsp; from xml</span>
+<span class='kw'>fn</span> <span class='ident'>clean_xml</span>(<span class='ident'>xmldoc</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
+    <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='ident'>xmldoc</span>).<span class='ident'>replace</span>(<span class='string'>&quot;&amp;nbsp;&quot;</span>, <span class='string'>&quot; &quot;</span>).<span class='ident'>into_bytes</span>()
+}
+
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>replace_attrs</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>xmldoc</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>closure</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>XMLError</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
 
     {
-        <span class='kw'>let</span> <span class='ident'>reader</span> <span class='op'>=</span> <span class='ident'>EventReader</span>::<span class='ident'>new</span>(<span class='ident'>xmldoc</span>);
+        <span class='kw'>let</span> <span class='ident'>xml_cleaned</span> <span class='op'>=</span> <span class='ident'>clean_xml</span>(<span class='ident'>xmldoc</span>);
+        <span class='kw'>let</span> <span class='ident'>reader</span> <span class='op'>=</span> <span class='ident'>EventReader</span>::<span class='ident'>new</span>(<span class='ident'>xml_cleaned</span>.<span class='ident'>as_slice</span>());
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='ident'>EmitterConfig</span>::<span class='ident'>default</span>().<span class='ident'>perform_indent</span>(<span class='bool-val'>true</span>).<span class='ident'>create_writer</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>b</span>);
 
         <span class='kw'>for</span> <span class='ident'>e</span> <span class='kw'>in</span> <span class='ident'>reader</span> {
@@ -458,7 +470,7 @@
                         }
                     }
                 },
-                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>XMLError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;Invalid XML&quot;</span>) })
+                <span class='prelude-val'>Err</span>(<span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>XMLError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>err</span>.<span class='ident'>msg</span>()) })
             }
         }
     }
