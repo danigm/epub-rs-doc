@@ -9,8 +9,8 @@
 
     <title>doc.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
     
@@ -600,6 +600,12 @@
 <span id="556">556</span>
 <span id="557">557</span>
 <span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Manages the epub doc.</span>
 <span class='doccomment'>//!</span>
@@ -619,10 +625,14 @@
 <span class='kw'>use</span> <span class='ident'>xmlutils</span>;
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DocError</span> { <span class='kw'>pub</span> <span class='ident'>error</span>: <span class='ident'>String</span> }
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DocError</span> {
+    <span class='kw'>pub</span> <span class='ident'>error</span>: <span class='ident'>String</span>,
+}
 
 <span class='kw'>impl</span> <span class='ident'>Error</span> <span class='kw'>for</span> <span class='ident'>DocError</span> {
-    <span class='kw'>fn</span> <span class='ident'>description</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> { <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>error</span> }
+    <span class='kw'>fn</span> <span class='ident'>description</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> {
+        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>error</span>
+    }
 }
 
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>DocError</span> {
@@ -685,12 +695,12 @@
     <span class='doccomment'>/// Returns an error if the epub is broken or if the file doesn&#39;t</span>
     <span class='doccomment'>/// exists.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>EpubDoc</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>archive</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>EpubArchive</span>::<span class='ident'>new</span>(<span class='ident'>path</span>));
-        <span class='kw'>let</span> <span class='ident'>spine</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>archive</span> <span class='op'>=</span> <span class='ident'>EpubArchive</span>::<span class='ident'>new</span>(<span class='ident'>path</span>)<span class='question-mark'>?</span>;
+        <span class='kw'>let</span> <span class='ident'>spine</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
         <span class='kw'>let</span> <span class='ident'>resources</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, (<span class='ident'>String</span>, <span class='ident'>String</span>)<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>();
 
-        <span class='kw'>let</span> <span class='ident'>container</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>archive</span>.<span class='ident'>get_container_file</span>());
-        <span class='kw'>let</span> <span class='ident'>root_file</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_root_file</span>(<span class='ident'>container</span>));
+        <span class='kw'>let</span> <span class='ident'>container</span> <span class='op'>=</span> <span class='ident'>archive</span>.<span class='ident'>get_container_file</span>()<span class='question-mark'>?</span>;
+        <span class='kw'>let</span> <span class='ident'>root_file</span> <span class='op'>=</span> <span class='ident'>get_root_file</span>(<span class='ident'>container</span>)<span class='question-mark'>?</span>;
 
         <span class='comment'>// getting the rootfile base directory</span>
         <span class='kw'>let</span> <span class='ident'>re</span> <span class='op'>=</span> <span class='ident'>regex</span>::<span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;/&quot;</span>).<span class='ident'>unwrap</span>();
@@ -708,7 +718,7 @@
             <span class='ident'>current</span>: <span class='number'>0</span>,
         };
 
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>doc</span>.<span class='ident'>fill_resources</span>());
+        <span class='ident'>doc</span>.<span class='ident'>fill_resources</span>()<span class='question-mark'>?</span>;
 
         <span class='prelude-val'>Ok</span>(<span class='ident'>doc</span>)
     }
@@ -735,7 +745,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_cover_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>metadata</span>.<span class='ident'>get</span>(<span class='string'>&quot;cover&quot;</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>id</span>.<span class='ident'>to_string</span>()),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;Cover not found&quot;</span>) }))
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;Cover not found&quot;</span>) })),
         }
     }
 
@@ -764,8 +774,8 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns an error if the cover can&#39;t be found.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_cover</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>cover_id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_cover_id</span>());
-        <span class='kw'>let</span> <span class='ident'>cover_data</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_resource</span>(<span class='kw-2'>&amp;</span><span class='ident'>cover_id</span>));
+        <span class='kw'>let</span> <span class='ident'>cover_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_cover_id</span>()<span class='question-mark'>?</span>;
+        <span class='kw'>let</span> <span class='ident'>cover_data</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_resource</span>(<span class='kw-2'>&amp;</span><span class='ident'>cover_id</span>)<span class='question-mark'>?</span>;
         <span class='prelude-val'>Ok</span>(<span class='ident'>cover_data</span>)
     }
 
@@ -775,7 +785,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns an error if the path doesn&#39;t exists in the epub</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_resource_by_path</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>archive</span>.<span class='ident'>get_entry</span>(<span class='ident'>path</span>));
+        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>archive</span>.<span class='ident'>get_entry</span>(<span class='ident'>path</span>)<span class='question-mark'>?</span>;
         <span class='prelude-val'>Ok</span>(<span class='ident'>content</span>)
     }
 
@@ -787,9 +797,9 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_resource</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>id</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>path</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>resources</span>.<span class='ident'>get</span>(<span class='ident'>id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>s</span>.<span class='number'>0</span>.<span class='ident'>to_string</span>(),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;id not found&quot;</span>) }))
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;id not found&quot;</span>) })),
         };
-        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_resource_by_path</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>));
+        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_resource_by_path</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>)<span class='question-mark'>?</span>;
         <span class='prelude-val'>Ok</span>(<span class='ident'>content</span>)
     }
 
@@ -799,7 +809,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns an error if the path doesn&#39;t exists in the epub</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_resource_str_by_path</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>archive</span>.<span class='ident'>get_entry_as_str</span>(<span class='ident'>path</span>));
+        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>archive</span>.<span class='ident'>get_entry_as_str</span>(<span class='ident'>path</span>)<span class='question-mark'>?</span>;
         <span class='prelude-val'>Ok</span>(<span class='ident'>content</span>)
     }
 
@@ -811,9 +821,9 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_resource_str</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>id</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>path</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>resources</span>.<span class='ident'>get</span>(<span class='ident'>id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>s</span>.<span class='number'>0</span>.<span class='ident'>to_string</span>(),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;id not found&quot;</span>) }))
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;id not found&quot;</span>) })),
         };
-        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_resource_str_by_path</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>));
+        <span class='kw'>let</span> <span class='ident'>content</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_resource_str_by_path</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>)<span class='question-mark'>?</span>;
         <span class='prelude-val'>Ok</span>(<span class='ident'>content</span>)
     }
 
@@ -873,12 +883,12 @@
     <span class='doccomment'>/// This call shouldn&#39;t fail, but can return an error if the epub doc is</span>
     <span class='doccomment'>/// broken.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_current</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_current_id</span>());
+        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_current_id</span>()<span class='question-mark'>?</span>;
         <span class='self'>self</span>.<span class='ident'>get_resource</span>(<span class='kw-2'>&amp;</span><span class='ident'>current_id</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_current_str</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_current_id</span>());
+        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_current_id</span>()<span class='question-mark'>?</span>;
         <span class='self'>self</span>.<span class='ident'>get_resource_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>current_id</span>)
     }
 
@@ -908,24 +918,21 @@
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_current_with_epub_uris</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_current_path</span>());
-        <span class='kw'>let</span> <span class='ident'>current</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_current</span>());
+        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_current_path</span>()<span class='question-mark'>?</span>;
+        <span class='kw'>let</span> <span class='ident'>current</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_current</span>()<span class='question-mark'>?</span>;
 
         <span class='kw'>let</span> <span class='ident'>resp</span> <span class='op'>=</span> <span class='ident'>xmlutils</span>::<span class='ident'>replace_attrs</span>(<span class='ident'>current</span>.<span class='ident'>as_slice</span>(),
-            <span class='op'>|</span><span class='ident'>element</span>, <span class='ident'>attr</span>, <span class='ident'>value</span><span class='op'>|</span> {
-                <span class='kw'>match</span> (<span class='ident'>element</span>, <span class='ident'>attr</span>) {
-                    (<span class='string'>&quot;link&quot;</span>, <span class='string'>&quot;href&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
-                    (<span class='string'>&quot;img&quot;</span>, <span class='string'>&quot;src&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
-                    (<span class='string'>&quot;image&quot;</span>, <span class='string'>&quot;href&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
-                    (<span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;href&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
-                    _ <span class='op'>=&gt;</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>value</span>)
-                }
-            }
-        );
+                                           <span class='op'>|</span><span class='ident'>element</span>, <span class='ident'>attr</span>, <span class='ident'>value</span><span class='op'>|</span> <span class='kw'>match</span> (<span class='ident'>element</span>, <span class='ident'>attr</span>) {
+                                               (<span class='string'>&quot;link&quot;</span>, <span class='string'>&quot;href&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
+                                               (<span class='string'>&quot;img&quot;</span>, <span class='string'>&quot;src&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
+                                               (<span class='string'>&quot;image&quot;</span>, <span class='string'>&quot;href&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
+                                               (<span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;href&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>build_epub_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>, <span class='ident'>value</span>),
+                                               _ <span class='op'>=&gt;</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>value</span>),
+                                           });
 
         <span class='kw'>match</span> <span class='ident'>resp</span> {
             <span class='prelude-val'>Ok</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>a</span>),
-            <span class='prelude-val'>Err</span>(<span class='ident'>error</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>error</span>.<span class='ident'>error</span> }))
+            <span class='prelude-val'>Err</span>(<span class='ident'>error</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>error</span>.<span class='ident'>error</span> })),
         }
     }
 
@@ -941,7 +948,7 @@
     <span class='doccomment'>/// assert_eq!(&quot;application/xhtml+xml&quot;, m.unwrap());</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_current_mime</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_current_id</span>());
+        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_current_id</span>()<span class='question-mark'>?</span>;
         <span class='self'>self</span>.<span class='ident'>get_resource_mime</span>(<span class='kw-2'>&amp;</span><span class='ident'>current_id</span>)
     }
 
@@ -957,10 +964,10 @@
     <span class='doccomment'>/// assert_eq!(&quot;OEBPS/Text/titlepage.xhtml&quot;, p.unwrap());</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_current_path</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_current_id</span>());
+        <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_current_id</span>()<span class='question-mark'>?</span>;
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>resources</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>current_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>, _)) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>p</span>.<span class='ident'>to_string</span>()),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;Current not found&quot;</span>) }))
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;Current not found&quot;</span>) })),
         }
     }
 
@@ -979,7 +986,7 @@
         <span class='kw'>let</span> <span class='ident'>current_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>spine</span>.<span class='ident'>get</span>(<span class='self'>self</span>.<span class='ident'>current</span>);
         <span class='kw'>match</span> <span class='ident'>current_id</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>id</span>.<span class='ident'>to_string</span>()),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;current is broken&quot;</span>) }))
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>DocError</span> { <span class='ident'>error</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;current is broken&quot;</span>) })),
         }
     }
 
@@ -1086,39 +1093,42 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>fill_resources</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>container</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>archive</span>.<span class='ident'>get_entry</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_file</span>));
+        <span class='kw'>let</span> <span class='ident'>container</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>archive</span>.<span class='ident'>get_entry</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_file</span>)<span class='question-mark'>?</span>;
         <span class='kw'>let</span> <span class='ident'>xml</span> <span class='op'>=</span> <span class='ident'>xmlutils</span>::<span class='ident'>XMLReader</span>::<span class='ident'>new</span>(<span class='ident'>container</span>.<span class='ident'>as_slice</span>());
-        <span class='kw'>let</span> <span class='ident'>root</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>xml</span>.<span class='ident'>parse_xml</span>());
+        <span class='kw'>let</span> <span class='ident'>root</span> <span class='op'>=</span> <span class='ident'>xml</span>.<span class='ident'>parse_xml</span>()<span class='question-mark'>?</span>;
 
         <span class='comment'>// resources from manifest</span>
-        <span class='kw'>let</span> <span class='ident'>manifest</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>root</span>.<span class='ident'>borrow</span>().<span class='ident'>find</span>(<span class='string'>&quot;manifest&quot;</span>));
+        <span class='kw'>let</span> <span class='ident'>manifest</span> <span class='op'>=</span> <span class='ident'>root</span>.<span class='ident'>borrow</span>().<span class='ident'>find</span>(<span class='string'>&quot;manifest&quot;</span>)<span class='question-mark'>?</span>;
         <span class='kw'>for</span> <span class='ident'>r</span> <span class='kw'>in</span> <span class='ident'>manifest</span>.<span class='ident'>borrow</span>().<span class='ident'>childs</span>.<span class='ident'>iter</span>() {
             <span class='kw'>let</span> <span class='ident'>item</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>borrow</span>();
-            <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;id&quot;</span>));
-            <span class='kw'>let</span> <span class='ident'>href</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;href&quot;</span>));
-            <span class='kw'>let</span> <span class='ident'>mtype</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;media-type&quot;</span>));
+            <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;id&quot;</span>)<span class='question-mark'>?</span>;
+            <span class='kw'>let</span> <span class='ident'>href</span> <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;href&quot;</span>)<span class='question-mark'>?</span>;
+            <span class='kw'>let</span> <span class='ident'>mtype</span> <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;media-type&quot;</span>)<span class='question-mark'>?</span>;
             <span class='self'>self</span>.<span class='ident'>resources</span>.<span class='ident'>insert</span>(<span class='ident'>id</span>, (<span class='self'>self</span>.<span class='ident'>root_base</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='ident'>href</span>, <span class='ident'>mtype</span>));
         }
 
         <span class='comment'>// items from spine</span>
-        <span class='kw'>let</span> <span class='ident'>spine</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>root</span>.<span class='ident'>borrow</span>().<span class='ident'>find</span>(<span class='string'>&quot;spine&quot;</span>));
+        <span class='kw'>let</span> <span class='ident'>spine</span> <span class='op'>=</span> <span class='ident'>root</span>.<span class='ident'>borrow</span>().<span class='ident'>find</span>(<span class='string'>&quot;spine&quot;</span>)<span class='question-mark'>?</span>;
         <span class='kw'>for</span> <span class='ident'>r</span> <span class='kw'>in</span> <span class='ident'>spine</span>.<span class='ident'>borrow</span>().<span class='ident'>childs</span>.<span class='ident'>iter</span>() {
             <span class='kw'>let</span> <span class='ident'>item</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>borrow</span>();
-            <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;idref&quot;</span>));
+            <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;idref&quot;</span>)<span class='question-mark'>?</span>;
             <span class='self'>self</span>.<span class='ident'>spine</span>.<span class='ident'>push</span>(<span class='ident'>id</span>);
         }
 
         <span class='comment'>// metadata</span>
-        <span class='kw'>let</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>root</span>.<span class='ident'>borrow</span>().<span class='ident'>find</span>(<span class='string'>&quot;metadata&quot;</span>));
+        <span class='kw'>let</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='ident'>root</span>.<span class='ident'>borrow</span>().<span class='ident'>find</span>(<span class='string'>&quot;metadata&quot;</span>)<span class='question-mark'>?</span>;
         <span class='kw'>for</span> <span class='ident'>r</span> <span class='kw'>in</span> <span class='ident'>metadata</span>.<span class='ident'>borrow</span>().<span class='ident'>childs</span>.<span class='ident'>iter</span>() {
             <span class='kw'>let</span> <span class='ident'>item</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>borrow</span>();
             <span class='kw'>if</span> <span class='ident'>item</span>.<span class='ident'>name</span>.<span class='ident'>local_name</span> <span class='op'>==</span> <span class='string'>&quot;meta&quot;</span> {
-                <span class='kw'>let</span> <span class='ident'>k</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;name&quot;</span>));
-                <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;content&quot;</span>));
+                <span class='kw'>let</span> <span class='ident'>k</span> <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;name&quot;</span>)<span class='question-mark'>?</span>;
+                <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;content&quot;</span>)<span class='question-mark'>?</span>;
                 <span class='self'>self</span>.<span class='ident'>metadata</span>.<span class='ident'>insert</span>(<span class='ident'>k</span>, <span class='ident'>v</span>);
             } <span class='kw'>else</span> {
                 <span class='kw'>let</span> <span class='kw-2'>ref</span> <span class='ident'>k</span> <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>name</span>.<span class='ident'>local_name</span>;
-                <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>item</span>.<span class='ident'>text</span> { <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>.<span class='ident'>to_string</span>(), <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;&quot;</span>) };
+                <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>item</span>.<span class='ident'>text</span> {
+                    <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>.<span class='ident'>to_string</span>(),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;&quot;</span>),
+                };
                 <span class='self'>self</span>.<span class='ident'>metadata</span>.<span class='ident'>insert</span>(<span class='ident'>k</span>.<span class='ident'>to_string</span>(), <span class='ident'>v</span>);
             }
         }
@@ -1129,12 +1139,12 @@
 
 <span class='kw'>fn</span> <span class='ident'>get_root_file</span>(<span class='ident'>container</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
     <span class='kw'>let</span> <span class='ident'>xml</span> <span class='op'>=</span> <span class='ident'>xmlutils</span>::<span class='ident'>XMLReader</span>::<span class='ident'>new</span>(<span class='ident'>container</span>.<span class='ident'>as_slice</span>());
-    <span class='kw'>let</span> <span class='ident'>root</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>xml</span>.<span class='ident'>parse_xml</span>());
+    <span class='kw'>let</span> <span class='ident'>root</span> <span class='op'>=</span> <span class='ident'>xml</span>.<span class='ident'>parse_xml</span>()<span class='question-mark'>?</span>;
     <span class='kw'>let</span> <span class='ident'>el</span> <span class='op'>=</span> <span class='ident'>root</span>.<span class='ident'>borrow</span>();
-    <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>el</span>.<span class='ident'>find</span>(<span class='string'>&quot;rootfile&quot;</span>));
+    <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='ident'>el</span>.<span class='ident'>find</span>(<span class='string'>&quot;rootfile&quot;</span>)<span class='question-mark'>?</span>;
     <span class='kw'>let</span> <span class='ident'>el2</span> <span class='op'>=</span> <span class='ident'>element</span>.<span class='ident'>borrow</span>();
 
-    <span class='prelude-val'>Ok</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>el2</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;full-path&quot;</span>)))
+    <span class='prelude-val'>Ok</span>(<span class='ident'>el2</span>.<span class='ident'>get_attr</span>(<span class='string'>&quot;full-path&quot;</span>)<span class='question-mark'>?</span>)
 }
 
 
@@ -1151,8 +1161,10 @@
     <span class='ident'>cpath</span>.<span class='ident'>pop</span>();
     <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='ident'>append</span>).<span class='ident'>components</span>() {
         <span class='kw'>match</span> <span class='ident'>p</span> {
-            <span class='ident'>Component</span>::<span class='ident'>ParentDir</span> <span class='op'>=&gt;</span> { <span class='ident'>cpath</span>.<span class='ident'>pop</span>(); },
-            <span class='ident'>Component</span>::<span class='ident'>Normal</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> { <span class='ident'>cpath</span>.<span class='ident'>push</span>(<span class='ident'>s</span>)},
+            <span class='ident'>Component</span>::<span class='ident'>ParentDir</span> <span class='op'>=&gt;</span> {
+                <span class='ident'>cpath</span>.<span class='ident'>pop</span>();
+            }
+            <span class='ident'>Component</span>::<span class='ident'>Normal</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>cpath</span>.<span class='ident'>push</span>(<span class='ident'>s</span>),
             _ <span class='op'>=&gt;</span> {}
         };
     }
@@ -1214,11 +1226,11 @@
     
 
     <script>
-        window.rootPath = "../../../";
+        window.rootPath = "../../";
         window.currentCrate = "epub";
     </script>
-    <script src="../../../jquery.js"></script>
-    <script src="../../../main.js"></script>
-    <script defer src="../../../search-index.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>
