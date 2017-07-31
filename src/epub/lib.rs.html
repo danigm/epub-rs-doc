@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -147,112 +148,112 @@
 <span id="103">103</span>
 <span id="104">104</span>
 <span id="105">105</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! EPUB library</span>
-<span class='doccomment'>//! lib to read and navigate throught an epub file contents</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Examples</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Opening</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! use epub::doc::EpubDoc;</span>
-<span class='doccomment'>//! let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
-<span class='doccomment'>//! assert!(doc.is_ok());</span>
-<span class='doccomment'>//! let doc = doc.unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Getting doc metatada</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Metadata is a HashMap storing all metadata defined in the epub</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! # use epub::doc::EpubDoc;</span>
-<span class='doccomment'>//! # let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
-<span class='doccomment'>//! # let doc = doc.unwrap();</span>
-<span class='doccomment'>//! let title = doc.metadata.get(&quot;title&quot;);</span>
-<span class='doccomment'>//! assert_eq!(title.unwrap(), &quot;Todo es mío&quot;);</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Accessing resources</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! In the resources var is stored each resource defined</span>
-<span class='doccomment'>//! in the epub indexed by the id and with the full internal</span>
-<span class='doccomment'>//! path and mimetype. It&#39;s a HashMap&lt;a: String, (b: String, c: String)&gt;</span>
-<span class='doccomment'>//! where &#39;a&#39; is the resource id, &#39;b&#39; is the resource full path and</span>
-<span class='doccomment'>//! &#39;c&#39; is the resource mimetype</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! # use epub::doc::EpubDoc;</span>
-<span class='doccomment'>//! # let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
-<span class='doccomment'>//! # let doc = doc.unwrap();</span>
-<span class='doccomment'>//! assert_eq!(21, doc.resources.len());</span>
-<span class='doccomment'>//! let tpage = doc.resources.get(&quot;titlepage.xhtml&quot;);</span>
-<span class='doccomment'>//! assert_eq!(tpage.unwrap().0, &quot;OEBPS/Text/titlepage.xhtml&quot;);</span>
-<span class='doccomment'>//! assert_eq!(tpage.unwrap().1, &quot;application/xhtml+xml&quot;);</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Navigating usint the spine</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Spine is a Vec&lt;String&gt; storing the epub spine as resources ids</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! # use epub::doc::EpubDoc;</span>
-<span class='doccomment'>//! # let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
-<span class='doccomment'>//! # let doc = doc.unwrap();</span>
-<span class='doccomment'>//! assert_eq!(17, doc.spine.len());</span>
-<span class='doccomment'>//! assert_eq!(&quot;titlepage.xhtml&quot;, doc.spine[0]);</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Navigation using the doc internal state</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! use epub::doc::EpubDoc;</span>
-<span class='doccomment'>//! let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
-<span class='doccomment'>//! let mut doc = doc.unwrap();</span>
-<span class='doccomment'>//! assert_eq!(0, doc.get_current_page());</span>
-<span class='doccomment'>//! assert_eq!(&quot;application/xhtml+xml&quot;, doc.get_current_mime().unwrap());</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! doc.go_next();</span>
-<span class='doccomment'>//! assert_eq!(&quot;000.xhtml&quot;, doc.get_current_id().unwrap());</span>
-<span class='doccomment'>//! doc.go_next();</span>
-<span class='doccomment'>//! assert_eq!(&quot;001.xhtml&quot;, doc.get_current_id().unwrap());</span>
-<span class='doccomment'>//! doc.go_prev();</span>
-<span class='doccomment'>//! assert_eq!(&quot;000.xhtml&quot;, doc.get_current_id().unwrap());</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! doc.set_current_page(2);</span>
-<span class='doccomment'>//! assert_eq!(&quot;001.xhtml&quot;, doc.get_current_id().unwrap());</span>
-<span class='doccomment'>//! assert_eq!(2, doc.get_current_page());</span>
-<span class='doccomment'>//! assert!(doc.set_current_page(50).is_err());</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! // doc.get_current() will return a Vec&lt;u8&gt; with the current page content</span>
-<span class='doccomment'>//! // doc.get_current_str() will return a String with the current page content</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Getting the cover</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```ignore</span>
-<span class='doccomment'>//! use std::fs;</span>
-<span class='doccomment'>//! use std::io::Write;</span>
-<span class='doccomment'>//! use epub::doc::EpubDoc;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
-<span class='doccomment'>//! assert!(doc.is_ok());</span>
-<span class='doccomment'>//! let mut doc = doc.unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! let cover_data = doc.get_cover().unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! let f = fs::File::create(&quot;/tmp/cover.png&quot;);</span>
-<span class='doccomment'>//! assert!(f.is_ok());</span>
-<span class='doccomment'>//! let mut f = f.unwrap();</span>
-<span class='doccomment'>//! let resp = f.write_all(&amp;cover_data);</span>
-<span class='doccomment'>//! ```</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! EPUB library</span>
+<span class="doccomment">//! lib to read and navigate throught an epub file contents</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Examples</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Opening</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! use epub::doc::EpubDoc;</span>
+<span class="doccomment">//! let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
+<span class="doccomment">//! assert!(doc.is_ok());</span>
+<span class="doccomment">//! let doc = doc.unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Getting doc metatada</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Metadata is a HashMap storing all metadata defined in the epub</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! # use epub::doc::EpubDoc;</span>
+<span class="doccomment">//! # let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
+<span class="doccomment">//! # let doc = doc.unwrap();</span>
+<span class="doccomment">//! let title = doc.metadata.get(&quot;title&quot;);</span>
+<span class="doccomment">//! assert_eq!(title.unwrap(), &quot;Todo es mío&quot;);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Accessing resources</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In the resources var is stored each resource defined</span>
+<span class="doccomment">//! in the epub indexed by the id and with the full internal</span>
+<span class="doccomment">//! path and mimetype. It&#39;s a HashMap&lt;a: String, (b: String, c: String)&gt;</span>
+<span class="doccomment">//! where &#39;a&#39; is the resource id, &#39;b&#39; is the resource full path and</span>
+<span class="doccomment">//! &#39;c&#39; is the resource mimetype</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! # use epub::doc::EpubDoc;</span>
+<span class="doccomment">//! # let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
+<span class="doccomment">//! # let doc = doc.unwrap();</span>
+<span class="doccomment">//! assert_eq!(21, doc.resources.len());</span>
+<span class="doccomment">//! let tpage = doc.resources.get(&quot;titlepage.xhtml&quot;);</span>
+<span class="doccomment">//! assert_eq!(tpage.unwrap().0, &quot;OEBPS/Text/titlepage.xhtml&quot;);</span>
+<span class="doccomment">//! assert_eq!(tpage.unwrap().1, &quot;application/xhtml+xml&quot;);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Navigating usint the spine</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Spine is a Vec&lt;String&gt; storing the epub spine as resources ids</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! # use epub::doc::EpubDoc;</span>
+<span class="doccomment">//! # let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
+<span class="doccomment">//! # let doc = doc.unwrap();</span>
+<span class="doccomment">//! assert_eq!(17, doc.spine.len());</span>
+<span class="doccomment">//! assert_eq!(&quot;titlepage.xhtml&quot;, doc.spine[0]);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Navigation using the doc internal state</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! use epub::doc::EpubDoc;</span>
+<span class="doccomment">//! let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
+<span class="doccomment">//! let mut doc = doc.unwrap();</span>
+<span class="doccomment">//! assert_eq!(0, doc.get_current_page());</span>
+<span class="doccomment">//! assert_eq!(&quot;application/xhtml+xml&quot;, doc.get_current_mime().unwrap());</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! doc.go_next();</span>
+<span class="doccomment">//! assert_eq!(&quot;000.xhtml&quot;, doc.get_current_id().unwrap());</span>
+<span class="doccomment">//! doc.go_next();</span>
+<span class="doccomment">//! assert_eq!(&quot;001.xhtml&quot;, doc.get_current_id().unwrap());</span>
+<span class="doccomment">//! doc.go_prev();</span>
+<span class="doccomment">//! assert_eq!(&quot;000.xhtml&quot;, doc.get_current_id().unwrap());</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! doc.set_current_page(2);</span>
+<span class="doccomment">//! assert_eq!(&quot;001.xhtml&quot;, doc.get_current_id().unwrap());</span>
+<span class="doccomment">//! assert_eq!(2, doc.get_current_page());</span>
+<span class="doccomment">//! assert!(doc.set_current_page(50).is_err());</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // doc.get_current() will return a Vec&lt;u8&gt; with the current page content</span>
+<span class="doccomment">//! // doc.get_current_str() will return a String with the current page content</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Getting the cover</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```ignore</span>
+<span class="doccomment">//! use std::fs;</span>
+<span class="doccomment">//! use std::io::Write;</span>
+<span class="doccomment">//! use epub::doc::EpubDoc;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
+<span class="doccomment">//! assert!(doc.is_ok());</span>
+<span class="doccomment">//! let mut doc = doc.unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let cover_data = doc.get_cover().unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let f = fs::File::create(&quot;/tmp/cover.png&quot;);</span>
+<span class="doccomment">//! assert!(f.is_ok());</span>
+<span class="doccomment">//! let mut f = f.unwrap();</span>
+<span class="doccomment">//! let resp = f.write_all(&amp;cover_data);</span>
+<span class="doccomment">//! ```</span>
 
-<span class='kw'>mod</span> <span class='ident'>xmlutils</span>;
+<span class="kw">mod</span> <span class="ident">xmlutils</span>;
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>archive</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>doc</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">archive</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">doc</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
