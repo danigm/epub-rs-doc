@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["DocError",""],["EpubDoc","Struct to control the epub document"]]});
+initSidebarItems({"struct":[["EpubDoc","Struct to control the epub document"]]});

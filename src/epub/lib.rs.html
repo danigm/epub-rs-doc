@@ -148,6 +148,8 @@
 <span id="103">103</span>
 <span id="104">104</span>
 <span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! EPUB library</span>
 <span class="doccomment">//! lib to read and navigate throught an epub file contents</span>
@@ -172,7 +174,7 @@
 <span class="doccomment">//! # use epub::doc::EpubDoc;</span>
 <span class="doccomment">//! # let doc = EpubDoc::new(&quot;test.epub&quot;);</span>
 <span class="doccomment">//! # let doc = doc.unwrap();</span>
-<span class="doccomment">//! let title = doc.metadata.get(&quot;title&quot;);</span>
+<span class="doccomment">//! let title = doc.mdata(&quot;title&quot;);</span>
 <span class="doccomment">//! assert_eq!(title.unwrap(), &quot;Todo es mío&quot;);</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
@@ -250,6 +252,8 @@
 <span class="doccomment">//! let resp = f.write_all(&amp;cover_data);</span>
 <span class="doccomment">//! ```</span>
 
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">failure</span>;
+
 <span class="kw">mod</span> <span class="ident">xmlutils</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">archive</span>;
@@ -312,7 +316,6 @@
         window.rootPath = "../../";
         window.currentCrate = "epub";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

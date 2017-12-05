@@ -48,37 +48,44 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/epub/archive.rs.html#15-19' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/epub/archive.rs.html#16-20' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct EpubArchive {
-    pub path: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>,
-    pub files: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;,
+    pub path: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
+    pub files: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;,
     // some fields omitted
 }</pre><div class='docblock'><p>Epub archive struct. Here it&#39;s stored the file path and the list of
 files in the zip archive.</p>
-</div><h2 id='fields' class='fields'>Fields</h2><span id='structfield.path' class="structfield">
-                           <span id='path.v' class='invisible'>
-                           <code>path: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code>
-                           </span></span><span id='structfield.files' class="structfield">
-                           <span id='files.v' class='invisible'>
-                           <code>files: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;</code>
-                           </span></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../epub/archive/struct.EpubArchive.html" title="struct epub::archive::EpubArchive">EpubArchive</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/epub/archive.rs.html#21-80' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(path: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../epub/archive/struct.EpubArchive.html" title="struct epub::archive::EpubArchive">EpubArchive</a>, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html" title="trait std::error::Error">Error</a>&gt;&gt;</code></span></h4>
+</div><h2 id='fields' class='fields small-section-header'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.path" class="structfield small-section-header">
+                           <a href="#structfield.path" class="anchor field"></a>
+                           <span id="path.v" class='invisible'>
+                           <code>path: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code>
+                           </span></span><span id="structfield.files" class="structfield small-section-header">
+                           <a href="#structfield.files" class="anchor field"></a>
+                           <span id="files.v" class='invisible'>
+                           <code>files: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code>
+                           </span></span>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../epub/archive/struct.EpubArchive.html" title="struct epub::archive::EpubArchive">EpubArchive</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/epub/archive.rs.html#22-81' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>(path: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../epub/archive/struct.EpubArchive.html" title="struct epub::archive::EpubArchive">EpubArchive</a>, Error&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/epub/archive.rs.html#29-46' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Opens the epub file in <code>path</code>.</p>
 
 <h1 id='errors' class='section-header'><a href='#errors'>Errors</a></h1>
 <p>Returns an error if the zip is broken or if the file doesn&#39;t
 exists.</p>
-</div><h4 id='method.get_entry' class="method"><span id='get_entry.v' class='invisible'><code>fn <a href='#method.get_entry' class='fnname'>get_entry</a>(&amp;mut self, name: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html" title="trait std::error::Error">Error</a>&gt;&gt;</code></span></h4>
+</div><h4 id='method.get_entry' class="method"><span id='get_entry.v' class='invisible'><code>pub fn <a href='#method.get_entry' class='fnname'>get_entry</a>(&amp;mut self, name: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;, Error&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/epub/archive.rs.html#53-58' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the content of the file by the <code>name</code> as <code>Vec&lt;u8&gt;</code>.</p>
 
 <h1 id='errors-1' class='section-header'><a href='#errors-1'>Errors</a></h1>
 <p>Returns an error if the name doesn&#39;t exists in the zip archive.</p>
-</div><h4 id='method.get_entry_as_str' class="method"><span id='get_entry_as_str.v' class='invisible'><code>fn <a href='#method.get_entry_as_str' class='fnname'>get_entry_as_str</a>(&amp;mut self, name: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html" title="trait std::error::Error">Error</a>&gt;&gt;</code></span></h4>
+</div><h4 id='method.get_entry_as_str' class="method"><span id='get_entry_as_str.v' class='invisible'><code>pub fn <a href='#method.get_entry_as_str' class='fnname'>get_entry_as_str</a>(&amp;mut self, name: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>, Error&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/epub/archive.rs.html#65-70' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the content of the file by the <code>name</code> as <code>String</code>.</p>
 
 <h1 id='errors-2' class='section-header'><a href='#errors-2'>Errors</a></h1>
 <p>Returns an error if the name doesn&#39;t exists in the zip archive.</p>
-</div><h4 id='method.get_container_file' class="method"><span id='get_container_file.v' class='invisible'><code>fn <a href='#method.get_container_file' class='fnname'>get_container_file</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;<a class="trait" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html" title="trait std::error::Error">Error</a>&gt;&gt;</code></span></h4>
+</div><h4 id='method.get_container_file' class="method"><span id='get_container_file.v' class='invisible'><code>pub fn <a href='#method.get_container_file' class='fnname'>get_container_file</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;, Error&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/epub/archive.rs.html#77-80' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the content of container file &quot;META-INF/container.xml&quot;.</p>
 
 <h1 id='errors-3' class='section-header'><a href='#errors-3'>Errors</a></h1>
@@ -140,7 +147,6 @@ exists.</p>
         window.rootPath = "../../";
         window.currentCrate = "epub";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>
