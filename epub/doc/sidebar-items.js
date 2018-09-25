@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["EpubDoc","Struct to control the epub document"]]});
+initSidebarItems({"struct":[["EpubDoc","Struct to control the epub document"],["NavPoint","Struct that represent a navigation point in a table of content"]]});
